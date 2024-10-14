@@ -21,13 +21,26 @@ const router = createBrowserRouter([
     }]
   },
   {
+    path: "/editContact/:id",
+    element: <App/>,
+    errorElement: <ErrorPage/>,
+    children: [
+      {
+        path: "/editContact/:id",
+        element: <AddEditContact/>
+      },
+    ]
+  },
+  {
     path: "/addContact",
     element: <App/>,
     errorElement: <ErrorPage/>,
-    children: [{
-      path: "/addContact",
-      element: <AddEditContact/>
-    }]
+    children: [
+      {
+        path: "/addContact",
+        element: <AddEditContact/>
+      }
+    ]
   }
 ])
 
