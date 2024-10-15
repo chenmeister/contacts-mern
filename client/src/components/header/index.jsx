@@ -5,9 +5,11 @@ const Header = () => {
   return (
     <nav>
       <div>
-        <NavLink to="/">
-          <h1>Contacts List</h1>
-        </NavLink>
+          <h1>
+            <NavLink to="/">
+              Contacts List
+            </NavLink>
+          </h1>
       </div>
     </nav>
   );

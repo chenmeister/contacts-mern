@@ -24,11 +24,16 @@ const ContactsList = () => {
   }, []);
 
   const deleteContact = async (id) => {
-    await fetch(`http://localhost:5050/contact/${id}`, {
-      method: "DELETE",
-    });
-    const newContacts = contactList.filter((el) => el._id !== id);
-    setContactList(newContacts);
+
+    const answer = confirm("Are you sure you want to remove selected contact?");
+    if(answer){
+      await fetch(`http://localhost:5050/contact/${id}`, {
+        method: "DELETE",
+      });
+      const newContacts = contactList.filter((el) => el._id !== id);
+      setContactList(newContacts);
+    }
+
   };
 
   return (

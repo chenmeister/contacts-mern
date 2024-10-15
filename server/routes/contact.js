@@ -35,6 +35,13 @@ router.post("/", async (req, res) => {
         let newDocument = {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
+            email: req.body.email,
+            phone: req.body.phone,
+            birthday: req.body.birthday,
+            address: req.body.address,
+            city: req.body.city,
+            state: req.body.state,
+            zip: req.body.zip
         }
         let collection = await db.collection("contacts");
         let result = await collection.insertOne(newDocument);
@@ -53,6 +60,13 @@ router.patch("/:id", async (req, res) => {
             $set: {
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
+                email: req.body.email,
+                phone: req.body.phone,
+                birthday: req.body.birthday,
+                address: req.body.address,
+                city: req.body.city,
+                state: req.body.state,
+                zip: req.body.zip
             }
         }
         let collection = await db.collection("contacts");

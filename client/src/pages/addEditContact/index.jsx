@@ -6,7 +6,15 @@ const AddEditContact = () => {
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
+    email: '',
+    phone: '',
+    birthday: '',
+    address: '',
+    city: '',
+    state: '',
+    zip: ''
   });
+
   const [isNew, setIsNew] = useState(true);
   const params = useParams();
   const navigate = useNavigate();
@@ -46,6 +54,7 @@ const AddEditContact = () => {
   // submit form information
   const onSubmit = async (e) => {
     e.preventDefault();
+    console.log(form);
     const contact = { ...form };
     try {
       let response;
@@ -80,14 +89,10 @@ const AddEditContact = () => {
 
   return (
     <>
-      <h3>Add Contact</h3>
+      <h3>{isNew ? 'Add' : 'Edit'} Contact</h3>
       <form onSubmit={onSubmit}>
         <div>
-          <label 
-            htmlFor="firstName"
-          >
-            First Name
-          </label>
+          <label htmlFor="firstName">First Name: </label>
           <input 
             id="firstName"
             name="firstName"
@@ -97,11 +102,7 @@ const AddEditContact = () => {
           />
         </div>
         <div>
-          <label 
-            htmlFor="lastName"
-          >
-            Last Name
-          </label>
+          <label htmlFor="lastName">Last Name: </label>
           <input 
             id="lastName"
             name="lastName"
@@ -110,7 +111,79 @@ const AddEditContact = () => {
             onChange={(e) => updateForm({ lastName: e.target.value })}
           />
         </div>
-        <input type="submit" value="Submit"/>
+        <div>
+          <label htmlFor="email">Email: </label>
+          <input 
+            id="email"
+            name="email"
+            type="email" 
+            value={form.email}
+            onChange={(e) => updateForm({ email: e.target.value })}
+          />
+        </div>
+        <div>
+          <label htmlFor="phone">Phone: </label>
+          <input 
+            id="phone"
+            name="phone"
+            type="text" 
+            value={form.phone}
+            onChange={(e) => updateForm({ phone: e.target.value })}
+          />
+        </div>
+        <div>
+          <label htmlFor="birthday">Birthday: </label>
+          <input 
+            id="birthday"
+            name="birthday"
+            type="text" 
+            value={form.birthday}
+            onChange={(e) => updateForm({ birthday: e.target.value })}
+          />
+        </div>
+        <div>
+          <label htmlFor="address">Address: </label>
+          <input 
+            id="address"
+            name="address"
+            type="text" 
+            value={form.address}
+            onChange={(e) => updateForm({ address: e.target.value })}
+          />
+        </div>
+        <div>
+          <label htmlFor="city">City: </label>
+          <input 
+            id="city"
+            name="city"
+            type="text" 
+            value={form.city}
+            onChange={(e) => updateForm({ city: e.target.value })}
+          />
+        </div>
+        <div>
+          <label htmlFor="state">State: </label>
+          <input 
+            id="state"
+            name="state"
+            type="text" 
+            value={form.state}
+            onChange={(e) => updateForm({ state: e.target.value })}
+          />
+        </div>
+        <div>
+          <label htmlFor="zip">Zip: </label>
+          <input 
+            id="zip"
+            name="zip"
+            type="text" 
+            value={form.zip}
+            onChange={(e) => updateForm({ zip: e.target.value })}
+          />
+        </div>
+        <input type="submit" value="Submit" disabled={
+          !form.firstName || !form.lastName || !form.email
+        }/>
       </form>
     </>
   )
