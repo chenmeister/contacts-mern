@@ -1,19 +1,15 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 const AddEditContact = () => {
 
-  const [form, setForm] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    birthday: '',
-    address: '',
-    city: '',
-    state: '',
-    zip: ''
-  });
+  const { 
+    register, 
+    handleSubmit,
+    reset, 
+    formState
+  } = useForm();
 
   const [isNew, setIsNew] = useState(true);
   const params = useParams();
@@ -34,28 +30,18 @@ const AddEditContact = () => {
       }
       const contact = await response.json();
       if(!contact) {
-        console.warn(`Record with id ${id} not found`);
+        console.warn(`Contact with id ${id} not found`);
         navigate("/");
         return;
       }
-      setForm(contact);
+      reset(contact);
     };
     fetchData();
     return;
-  }, [params.id, navigate]);
+  }, [params.id, navigate, reset]);
 
-  // update form values
-  const updateForm = (value) => {
-    return setForm((prev) => {
-      return { ...prev, ...value };
-    });
-  }
-
-  // submit form information
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    console.log(form);
-    const contact = { ...form };
+  const onSubmit = async (data) => {
+    const contact = { ...data };
     try {
       let response;
       if(isNew) {
@@ -82,7 +68,6 @@ const AddEditContact = () => {
     } catch (error) {
       console.error('A problem occured while adding or updating user: ', error);
     } finally {
-      setForm({ firstName: '', lastName: '' });
       navigate("/");
     }
   }
@@ -90,35 +75,33 @@ const AddEditContact = () => {
   return (
     <>
       <h3>{isNew ? 'Add' : 'Edit'} Contact</h3>
-      <form onSubmit={onSubmit}>
+      <p>* Required</p>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <label htmlFor="firstName">First Name: </label>
+          <label htmlFor="firstName">First Name:* </label>
           <input 
             id="firstName"
             name="firstName"
             type="text"
-            value={form.firstName}
-            onChange={(e) => updateForm({ firstName: e.target.value })}
+            {...register("firstName", { required: true })}
           />
         </div>
         <div>
-          <label htmlFor="lastName">Last Name: </label>
+          <label htmlFor="lastName">Last Name:* </label>
           <input 
             id="lastName"
             name="lastName"
-            type="text" 
-            value={form.lastName}
-            onChange={(e) => updateForm({ lastName: e.target.value })}
+            type="text"
+            {...register("lastName", { required: true })} 
           />
         </div>
         <div>
-          <label htmlFor="email">Email: </label>
+          <label htmlFor="email">Email:* </label>
           <input 
             id="email"
             name="email"
             type="email" 
-            value={form.email}
-            onChange={(e) => updateForm({ email: e.target.value })}
+            {...register("email", { required: true })}
           />
         </div>
         <div>
@@ -126,9 +109,8 @@ const AddEditContact = () => {
           <input 
             id="phone"
             name="phone"
-            type="text" 
-            value={form.phone}
-            onChange={(e) => updateForm({ phone: e.target.value })}
+            type="text"
+            {...register("phone")}
           />
         </div>
         <div>
@@ -136,9 +118,8 @@ const AddEditContact = () => {
           <input 
             id="birthday"
             name="birthday"
-            type="text" 
-            value={form.birthday}
-            onChange={(e) => updateForm({ birthday: e.target.value })}
+            type="text"
+            {...register("birthday")}
           />
         </div>
         <div>
@@ -146,9 +127,8 @@ const AddEditContact = () => {
           <input 
             id="address"
             name="address"
-            type="text" 
-            value={form.address}
-            onChange={(e) => updateForm({ address: e.target.value })}
+            type="text"
+            {...register("address")}
           />
         </div>
         <div>
@@ -157,8 +137,7 @@ const AddEditContact = () => {
             id="city"
             name="city"
             type="text" 
-            value={form.city}
-            onChange={(e) => updateForm({ city: e.target.value })}
+            {...register("city")}
           />
         </div>
         <div>
@@ -166,9 +145,8 @@ const AddEditContact = () => {
           <input 
             id="state"
             name="state"
-            type="text" 
-            value={form.state}
-            onChange={(e) => updateForm({ state: e.target.value })}
+            type="text"
+            {...register("state")}
           />
         </div>
         <div>
@@ -176,14 +154,15 @@ const AddEditContact = () => {
           <input 
             id="zip"
             name="zip"
-            type="text" 
-            value={form.zip}
-            onChange={(e) => updateForm({ zip: e.target.value })}
+            type="text"
+            {...register("zip")}
           />
         </div>
-        <input type="submit" value="Submit" disabled={
-          !form.firstName || !form.lastName || !form.email
-        }/>
+        <input 
+          type="submit" 
+          value="Submit" 
+          disabled={!formState.isValid}
+        />
       </form>
     </>
   )
