@@ -36,6 +36,10 @@ const ContactsList = () => {
 
   };
 
+  const getFullAddress = (contact) => {
+    return `${contact.address}, ${contact.city}, ${contact.state}, ${contact.zip}`
+  }
+
   return (
     <div className="contacts_list">
       <div className="right">
@@ -48,6 +52,10 @@ const ContactsList = () => {
           <tr>
             <th>First Name</th>
             <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Birthday</th>
+            <th>Full Address</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -57,6 +65,10 @@ const ContactsList = () => {
               <tr key={contact._id}>
                 <td>{contact.firstName}</td>
                 <td>{contact.lastName}</td>
+                <td>{contact.email}</td>
+                <td>{contact.phone}</td>
+                <td>{contact.birthday}</td>
+                <td>{getFullAddress(contact)}</td>
                 <td>
                   <button
                     onClick={() => navigate(`/editContact/${contact._id}`)}
