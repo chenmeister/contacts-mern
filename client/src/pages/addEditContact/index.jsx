@@ -25,7 +25,7 @@ const AddEditContact = () => {
       if (!id) return;
       setIsNew(false);
       const response = await fetch(
-        `http://localhost:5050/contact/${id}`
+        `${import.meta.env.VITE_API_URL}/${id}`
       );
       if (!response.ok) {
         const message = `An error has occurred: ${response.statusText}`;
@@ -59,7 +59,7 @@ const AddEditContact = () => {
     try {
       let response;
       if(isNew) {
-        response = await fetch("http://localhost:5050/contact", {
+        response = await fetch(`${import.meta.env.VITE_API_URL}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -67,7 +67,7 @@ const AddEditContact = () => {
           body: JSON.stringify(contact),
         });
       } else {
-        response = await fetch(`http://localhost:5050/contact/${params.id}`, {
+        response = await fetch(`${import.meta.env.VITE_API_URL}/${params.id}`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",

@@ -9,7 +9,7 @@ const ContactsList = () => {
   useEffect(() => {
     
     const getContacts = async () => {
-      const response = await fetch(`http://localhost:5050/contact/`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}`);
       if (!response.ok) {
         const message = `An error occured: ${response.statusText}`;
         console.error(message);
@@ -27,7 +27,7 @@ const ContactsList = () => {
 
     const answer = confirm("Are you sure you want to remove selected contact?");
     if(answer){
-      await fetch(`http://localhost:5050/contact/${id}`, {
+      await fetch(`${import.meta.env.VITE_API_URL}/${id}`, {
         method: "DELETE",
       });
       const newContacts = contactList.filter((el) => el._id !== id);
